@@ -1,0 +1,332 @@
+Functions working with arrays: 
+
+// Given an array of numbers and a number to search for, returns a count of the number of times the number occurs in the array.
+export let count = (a: number[], b: number): number => {
+    let c = 0;
+    for (let i = 0; i <= a.length; i++) {
+        if ((a[i]) === b) {
+            c++;
+        }
+    }
+    return c;
+};
+
+// Given an array of numbers, returns the largest number in the array. When the array is empty, returns Number.MIN_VALUE.
+export let max = (a: number[]): number => {
+    if (a.length === 0) {
+        return Number.MIN_VALUE;
+    } else {
+        for (let i = 0; i < a.length; i++) {
+            for (let p = 1; p <= a.length; p++) {
+                if ((a[i]) < (a[p]) && i !== p) {
+                    let c = (a[p]);
+                    a[p] = a[i];
+                    a[i] = c;
+                }
+            }
+        }
+        return a[0];
+    }
+};
+
+// Given an array of numbers and a number to search for, returns true when the number is an element of the array or false otherwise.
+export let has = (a: number[], b: number): boolean => {
+    for (let i = 0; i < a.length; i++) {
+        if (a[i] === b) {
+            return true;
+        }
+    }
+    return false;
+};    
+
+// Given an array of numbers and a number to search for, returns true when every element in the array is equal to that number or false otherwise.
+export let all = (a: number[], b: number): boolean => {
+    let c = 0;
+    for (let i = 0; i < a.length; i++) {
+        if (a[i] === b) {
+            c++;
+        }
+        if (c === a.length) {
+            return true;
+        }
+    }
+    return false;
+};
+
+// Given two arrays of numbers, returns true when two arrays have the same elements in the same order. Two empty arrays are equal to one another.
+export let equals = (a: number[], b: number[]): boolean => {
+    if (a === [] && b === []) {
+        return true;
+    }
+    let c = 0;
+    for (let i = 0; i < a.length; i++) {
+        if (a[i] === b[i]) {
+            c++;
+        }
+    }
+    if (c === a.length && c === b.length) {
+        return true;
+    } else {
+        return false;
+    }
+};    
+
+// Given a number as an upper bound, and a count of elements to generate, generate an array that cycles from 1 to the upper bound with the correct length.
+export let cycle = (a: number, b: number): number[] => {
+    if (a <= 0 || b <= 0) {
+        return [];
+    }
+    let c = [];
+    let p = 1;
+    for (let i = 0; i < b; i++) {
+        if (p <= a) {
+        c[i] = p;
+        p++;
+        } else {
+            p = 1;
+            c[i] = p;
+            p++;
+        }
+    }
+    return c;
+};    
+
+// Given two arrays, return a single array that contains all of the elements of the first array followed by all of the elements of the second array.
+export let concat = (a: number[], b: number[]): number[] => {
+    if (a === []) {
+        return b;
+    }
+    if (b === []) {
+        return a;
+    }
+    let c = [];
+    for (let p = 0; p < a.length; p++) {
+        c[p] = a[p];
+    }
+    for (let i = 0; i < b.length; i++) {
+        let z: number;
+        z = c.length;
+        if (z < (a.length + b.length)) {
+            c[z] = b[i];
+            }
+        }
+    return c;
+}; 
+
+// Given an array, a starting index, and an ending index, return an array that contains only the elements of the input array from start index to (end index - 1).
+export let sub = (a: number[], b: number, c: number): number[] => {
+    let d: number[] = [];
+    if (a === []) {
+        return d;
+    }
+    if (c > a.length) {
+        c = a.length;
+    }
+    if (b < 0) {
+        b = 0;
+    }
+    if (b > a.length || c < 0) {
+        return [];
+    }
+    let f = c - b;
+    if (b < 0) {
+        for (let i = 0; (i < f); i++) {
+            d[i] = a[i];
+        }
+    }
+    if (b >= 0) {
+    for (let i = 0; (i < f); i++) {
+        d[i] = a[b];
+        b++;
+        }
+    }
+    return d;
+};
+
+// Given an array we'll refer to as the first array, an integer index, and another array we'll refer to as second array, splice or "insert" the elements of the second array at the integer index of the first array.
+export let splice = (a: number[], b: number, c: number[]): number[] => {
+    let d: number[] = [];
+    if (a.length === 0) {
+        return c;
+    }
+    if (c.length === 0) {
+        return a;
+        }
+    let f = a.length + c.length;
+    if (b <= 0) {
+        d = concat(c, a);
+        return d;
+        } else {
+            if (b >= a.length) {
+            d = concat(a, c);
+            return d;
+            } else {
+                for (let i = 0; i <= f; i++) {
+                if (i < b) {
+                d[i] = a[i];
+                }
+                if (i === b) {
+                d = concat(d, c);
+                i = i + c.length;
+                }
+                if (i > b) {
+                if (i >= f) {
+                return d;
+                    } else {
+                        d[i] = a[(i - c.length)];
+                    }
+                }
+            }
+        }
+    }
+    return d;
+};
+
+Function working with Linked Lists:
+
+export let last = <T> (list: Node<T>): T => {
+    if (list === null) {
+        return null;
+    }
+    while (list.next !== null) {
+        list = rest(list);
+        last(list);
+    }
+    return list.value;
+};
+
+export let valueAt = <T> (list: Node<T>, index: number): T => {
+    if (index < 0) {
+        return null;
+    }
+    if (list === null) {
+        return null;
+    } else if (index === 0) {
+        return list.value;
+    } else {
+        return valueAt(rest(list), (index - 1));
+    }
+};
+
+export let max = (list: Node<number>, record: number): number => {
+    if (list === null) {
+        return Number.MIN_SAFE_INTEGER;
+    }
+    if (list.next === null && list.value > record) {
+        return list.value;
+    }
+    while (list.next !== null) {
+        if (list.value > record) {
+            record = list.value;
+            return max(rest(list), record);
+        } else {
+            return max(rest(list), record);
+        }
+    }
+    return record;
+};
+
+export let all = <T> (list: Node<T>, value: T): boolean => {
+    if (list === null) {
+        return true;
+    }
+    if (list.next !== null) {
+        if (value === list.value) {
+            return all(rest(list), value);
+        } else {
+            return false;
+        }
+    } else {
+        if (list.value === value) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+};
+
+export let equals = <T> (a: Node<T>, b: Node<T>): boolean => {
+    if (a === null && b === null) {
+        return true;
+    }
+    if (a === null && b !== null) {
+        return false;
+    }
+    if (b === null && a !== null) {
+        return false;
+    }
+    while (a !== null && b !== null) {
+        if (a.value === b.value) {
+            return equals(rest(a), rest(b));
+        }
+        if (a.value !== b.value) {
+            return false;
+        }
+    }
+    return true;
+};
+
+export let scale = (list: Node<number>, factor: number): Node<number> => {
+    if (list === null) {
+        return null;
+    }
+    if (list.next !== null) {
+        let a = list.value * factor;
+        return cons(a, scale(rest(list), factor));
+    } else {
+        list = new Node<number>(list.value * factor, null);
+    }
+    return list;
+};
+
+export let arrayToList = <T> (list: T[], index: number): Node<T> => {
+    if (list.length === 0) {
+        return null;
+    } else if (index < list.length) {
+        let a = list[index];
+        return cons(a, arrayToList(list, index + 1));
+    } else {
+        return null;
+    }
+};
+
+export let concat = <T> (a: Node<T>, b: Node<T>): Node<T> => {
+    if (a === null) {
+        return b;
+    } else if (b === null) {
+        return a;
+    } else if (a === null && b === null) {
+        return null;
+    } else {
+        return cons(first(a), concat(rest(a), b));
+        } 
+};
+
+export let sub = <T> (a: Node<T>, b: number, c: number): Node<T> => {
+    if (a === null) {
+        return null;
+    }
+    if (b > 0) {
+        return sub(rest(a), b - 1, c);
+    } else if (c > 0) {
+        let node: Node<T>;
+        let p = first(a);
+        node = cons(p, sub(rest(a), b, c - 1));
+        return node;
+    }
+    return null;
+};
+
+export let splice = <T> (a: Node<T>, index: number, b: Node<T>): Node<T> => {
+    if (a === null && b === null) {
+        return null;
+    } else if (a === null && b !== null) {
+        return b;
+    } else if (b === null && a !== null) {
+        return a;
+    } else if (index === 0) {
+        return concat(b, a);
+        } else {
+        return cons(first(a), splice(rest(a), index - 1, b));
+    }
+};
