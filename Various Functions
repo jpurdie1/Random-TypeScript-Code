@@ -1,3 +1,72 @@
+Graphics:
+
+export class Axes {
+    width: number;
+    height: number;
+    
+    constructor(width: number, height: number) {
+        this.width = width;
+        this.height = height;
+    }
+
+    getShapes(): Group {
+
+        let yAxis = new Line(0, -this.height / 2, 0, this.height / 2);
+
+        let xAxis = new Line(-this.width / 2, 0, this.width / 2, 0);
+        
+        let g = new Group();
+        
+        g.add(yAxis);
+        g.add(xAxis);
+        
+        return g;
+    }
+}
+
+/** Constants */
+const RADIANS = 2 * Math.PI;
+const PERIOD = 5; // seconds
+const MS_IN_S = 1000;
+
+/** Global Variables */
+let artboard = new SVG("artboard");
+
+/** Begin main program */
+export let main = async () => {
+    let shapes = new Group();
+
+    let axes = new Axes(100, 100);
+    shapes.add(axes.getShapes());
+
+    let time = Date.now() / MS_IN_S;
+    let timePeriod = time % PERIOD / PERIOD;
+
+    let count = 10;
+    for (let i = 0; i < count; i++) {
+        let percent = i / (count - 1);
+        let angleT = timePeriod * RADIANS;
+
+        let cy = Math.sin(percent * RADIANS + angleT) * 20;
+
+        let c = new Circle(5, -45 + i * 10, cy);
+        let red = 0;
+        let green = 1 - percent;
+        let blue = percent;
+        let fillColor = new Color(red, green, blue);
+        c.fill = fillColor;
+        shapes.add(c);
+    }
+
+    artboard.render(shapes);
+};
+
+setInterval(main, 1);
+
+
+
+
+
 Functions working with arrays: 
 
 // Given an array of numbers, return an array of the same numbers in reverse order
